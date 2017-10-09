@@ -1,0 +1,9 @@
+
+{{ wordpress_domain }} {
+  log /var/log/wordpress_access.log
+  errors /var/log/wordpress_errors.log
+
+  proxy / wordpress:80 {
+    transparent
+  }
+}

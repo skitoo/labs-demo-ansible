@@ -1,0 +1,20 @@
+---
+
+- name: Création de la base de données pour wordpress
+  mysql_db:
+    login_user: root
+    login_password: '{{ mariadb_root_password }}'
+    login_host: "{{ db_ip }}"
+    name: wordpress
+    encoding: utf8
+    state: present
+
+- name: Création d l'utilisateur mariadb pour wordpress
+  mysql_user:
+    login_user: root
+    login_password: '{{ mariadb_root_password }}'
+    login_host: "{{ db_ip }}"
+    name: wordpress
+    host: '%'
+    password: '{{ mariadb_wordpress_password }}'
+    priv: 'wordpress.*:ALL'

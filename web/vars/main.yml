@@ -1,0 +1,16 @@
+---
+# vars file for web
+mariadb_wordpress_password: ahR9ChuceeCh2uer
+wordpress_domain: demo.skitoo.net
+
+wordpress_data_directory: /var/wordpress/data
+wordpress_log_directory: /var/wordpress/log
+
+
+caddy_basepath: /var/caddy
+caddy_certs_directory: "{{ caddy_basepath }}/certs"
+caddy_vhosts_directory: "{{ caddy_basepath }}/vhosts"
+caddy_log_directory: "{{ caddy_basepath }}/log"
+caddy_file: "{{ caddy_basepath }}/Caddyfile"
+caddy_vhosts:
+  - { src: WordpressCaddyfile, dest: "{{ caddy_vhosts_directory }}/wordpress" }

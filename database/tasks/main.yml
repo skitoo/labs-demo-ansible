@@ -1,0 +1,23 @@
+---
+# tasks file for database
+
+- name: Création de la structure mariadb
+  file: path={{ item }} state=directory
+  with_items:
+    - "{{ data_directory }}"
+    - "{{ log_directory }}"
+
+- name: Installation du container mariadb
+  docker_container:
+    name: mariadb
+    image: mariadb
+    state: started
+    restart: yes
+    restart_policy: always
+    ports:
+      - 0.0.0.0:3306:3306
+    volumes:
+      - "{{ data_directory }}:/var/lib/mysql"
+      - "{{ log_directory }}:/var/log"
+    env:
+      MYSQL_ROOT_PASSWORD: "{{ mariadb_root_password }}"

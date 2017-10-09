@@ -1,0 +1,22 @@
+---
+# provisioning des serveurs de données
+- hosts: database
+  remote_user: root
+  pre_tasks:
+    - name: Read vars from file
+      include_vars: vars.yml
+
+  roles:
+    - common
+    - database
+
+# provisioning des serveurs web
+- hosts: web
+  remote_user: root
+  pre_tasks:
+    - name: Read vars from file
+      include_vars: vars.yml
+
+  roles:
+    - common
+    - web

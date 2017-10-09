@@ -1,0 +1,34 @@
+---
+
+- name: Création de la structure caddy
+  file: path={{ item }} state=directory
+  with_items:
+    - "{{ caddy_certs_directory }}"
+    - "{{ caddy_vhosts_directory }}"
+    - "{{ caddy_log_directory }}"
+
+- name: Copie du fichier Caddyfile
+  copy: src=Caddyfile dest=/var/caddy/Caddyfile
+
+- name: Copie des templates vhosts
+  template: src={{ item.src }} dest={{ item.dest }}
+  with_items: "{{ caddy_vhosts }}"
+
+- name: Création du container Caddy
+  docker_container:
+    name: caddy
+    image: abiosoft/caddy
+    state: started
+    restart: yes
+    restart_policy: always
+    recreate: yes
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - "{{ caddy_file }}:/etc/Caddyfile"
+      - "{{ caddy_certs_directory }}:/root/.caddy"
+      - "{{ caddy_vhosts_directory }}:/etc/vhosts"
+      - "{{ caddy_log_directory }}:/var/log"
+    links:
+      - wordpress

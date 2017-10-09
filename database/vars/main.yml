@@ -1,0 +1,5 @@
+---
+# vars file for database
+
+data_directory: "/root/mariadb/data"
+log_directory: "/root/mariadb/log"
